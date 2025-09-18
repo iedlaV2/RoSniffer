@@ -187,7 +187,6 @@ def sorting_threading(place_id: int, gameidlist: list[str], rblxtoken: str) -> l
     print(f"Processed: {len(results)} servers in {end - start:.2f} seconds.")
     return results
 
-
 if __name__ == "__main__":
     place_id_input = int(input("Enter roblox game ID: "))
 
