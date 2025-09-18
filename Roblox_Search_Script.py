@@ -13,7 +13,6 @@ mindmaxfilepath = "C:/ServerFinder/GeoLite2-Country.mmdb"
 mindmaxpath = "C:/ServerFinder/"
 mindmaxfetchlink = "https://release-assets.githubusercontent.com/github-production-release-asset/249855791/376cbf60-48a9-49ea-ab12-dfbcfb247738?sp=r&sv=2018-11-09&sr=b&spr=https&se=2025-09-18T11%3A45%3A22Z&rscd=attachment%3B+filename%3DGeoLite2-Country.mmdb&rsct=application%2Foctet-stream&skoid=96c2d410-5711-43a1-aedd-ab1947aa7ab0&sktid=398a6654-997b-47e9-b12b-9515b896b4de&skt=2025-09-18T10%3A44%3A34Z&ske=2025-09-18T11%3A45%3A22Z&sks=b&skv=2018-11-09&sig=iFv6LJ2X%2BqOtEdVuWDibgnh2ACOUpTq9%2FVpDJof386A%3D&jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmVsZWFzZS1hc3NldHMuZ2l0aHViaXNlcmNvbnRlbnQuY29tIiwia2V5Ijoia2V5MSIsImV4cCI6MTc1ODE5Mzk0OSwibmJmIjoxNzU4MTkzNjQ5LCJwYXRoIjoicmVsZWFzZWFzc2V0cHJvZHVjdGlvbi5ibG9iLmNvcmUud2luZG93cy5uZXQifQ.jpyJ-2Hr_Xgblt8KdQ0uuszitZzwxNNdLpRnPnk1z6I&response-content-disposition=attachment%3B%20filename%3DGeoLite2-Country.mmdb&response-content-type=application%2Foctet-stream"
 
-
 def mindmax_setup():
     global boolmindmax
     if not boolmindmax:
