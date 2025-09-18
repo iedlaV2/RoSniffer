@@ -41,8 +41,6 @@ def mindmax_setup():
             print(f"GeoLite2 setup failed because of: {e}")
             return False
     return boolmindmax
-
-
 def mindmax_lookup(serverip: str) -> dict or None:
     if not boolmindmax or not os.path.exists(mindmaxfilepath):
         print("GeoLite2 database not setup or found.")
@@ -85,8 +83,6 @@ def fetch_serverid(place_id: int) -> list[str]:
     except Exception as e:
         print(f"exception fetching server IDs for place_id")
         return []
-
-
 def req_server_data(place_id: int, gameid: str, rblxtoken: str) -> dict or None:
     geturl = "https://gamejoin.roblox.com/v1/join-game-instance"
     headers = {
@@ -152,8 +148,6 @@ def req_server_data(place_id: int, gameid: str, rblxtoken: str) -> dict or None:
     except Exception as e:
         print(f" Error for Game ID {gameid}: {e}")
         return None
-
-
 def sorting_threading(place_id: int, gameidlist: list[str], rblxtoken: str) -> list[dict]:
     if not gameidlist:
         print("No game IDs provided for sorting_threading.")
@@ -186,6 +180,7 @@ def sorting_threading(place_id: int, gameidlist: list[str], rblxtoken: str) -> l
     end = time.time()
     print(f"Processed: {len(results)} servers in {end - start:.2f} seconds.")
     return results
+
 
 if __name__ == "__main__":
     place_id_input = int(input("Enter roblox game ID: "))
