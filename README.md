@@ -1,6 +1,8 @@
 # Roblox-server-search-
 Roblox server search
 Only for HK and SG currently, I'll add more later
+Uses Geolite Database for IP sorting.
+Files stored in C:\ServerFinder
 
 
 Picture
