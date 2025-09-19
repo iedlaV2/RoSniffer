@@ -60,8 +60,10 @@ def Gui_main():
     try:
         if not running:
             PlaceID_textbox.configure(state="disabled")
+            running = True
             output("Searching for game Servers in HK and SG")
             start_search_thread()
+            running = False
             PlaceID_textbox.configure(state="enabled")
         else:
             output(f"Already running for {PlaceID}")
