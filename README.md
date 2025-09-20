@@ -14,17 +14,19 @@ Inspired by Oqarshi's Rolocate Script
 > You can use any accounts roblox cookie for this. So if you dont trust this program you can use an alts cookie
 > [**How to extract your cookie**](#how-to-get-roblox-cookie)
 
+## Features
+Roblox server finding tool.
+Server sorting for HK,SG,GB,FR,DE,JP,IN,AU,KR,NL
+Saves cookie between uses.
 
 ## GUI 
-
-### Features
 
 <img width="798" height="576" alt="image" src="https://github.com/user-attachments/assets/667831e9-14ca-4063-85aa-0d2cebc2b7ed" />
 
 
 ## How to get roblox cookie
 
-Get a cookie editor or viewer I use (cookie-editor)[https://chromewebstore.google.com/detail/cookie-editor/hlkenndednhfkekhgcdicdfddnkalmdm]
+Get a cookie editor or viewer I use [cookie-editor](https://chromewebstore.google.com/detail/cookie-editor/hlkenndednhfkekhgcdicdfddnkalmdm)
 
 Then go to roblox.com
 
