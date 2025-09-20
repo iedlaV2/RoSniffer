@@ -120,6 +120,7 @@ if __name__ == "__main__":
     root.title('funky functions')
     root.grid_rowconfigure(0, weight=1)
     root.grid_columnconfigure(0, weight=1)
+    root.iconbitmap("roblox_logo.ico")
     pg.mixer.init()
 
     main_frame = tk.CTkFrame(root)
