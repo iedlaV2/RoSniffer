@@ -16,7 +16,7 @@ Inspired by Oqarshi's Rolocate Script
 -Roblox server finding tool using the [**game ID**](#how-to-get-game-id).\
 -Server sorting for HK, SG, GB, FR, DE, JP, IN, AU, KR, NL\
 -Saves cookie between uses.
-# Future
+### Future
 -Discovery page fetched from roblox\
 -Undecided
 
