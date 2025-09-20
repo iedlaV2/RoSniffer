@@ -13,7 +13,7 @@ Inspired by Oqarshi's Rolocate Script
 > [**How to extract your cookie**](#how-to-get-roblox-cookie)
 
 ## Features
--Roblox server finding tool.\
+-Roblox server finding tool using the [**game ID**](#how-to-get-game-id).\
 -Server sorting for HK,SG,GB,FR,DE,JP,IN,AU,KR,NL\
 -Saves cookie between uses.
 
@@ -22,11 +22,23 @@ Inspired by Oqarshi's Rolocate Script
 <img width="798" height="576" alt="image" src="https://github.com/user-attachments/assets/667831e9-14ca-4063-85aa-0d2cebc2b7ed" />
 
 
+## How to get Game ID
+
+Go to any game on Roblox.
+
+Find the URL bar and find /games/
+
+The next string of numbers will be the game ID.
+
+e.g /games/18687417158/Forsaken/ \
+The game ID for this would be 18687417158.
+
+
 ## How to get roblox cookie
 
-Get a cookie editor or viewer I use [cookie-editor](https://chromewebstore.google.com/detail/cookie-editor/hlkenndednhfkekhgcdicdfddnkalmdm)
+Get a cookie editor or viewer I use [cookie-editor](https://chromewebstore.google.com/detail/cookie-editor/hlkenndednhfkekhgcdicdfddnkalmdm).
 
-Then go to roblox.com
+Then go to roblox.com.
 
 Log into the account or an alt account.
 
