@@ -114,7 +114,6 @@ def load_cookie():
 
 
 if __name__ == "__main__":
-
     root = tk.CTk()
     root.geometry('800x550')
     root.title('funky functions')
