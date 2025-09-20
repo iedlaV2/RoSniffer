@@ -15,6 +15,7 @@ def output(text):
     Out_textbox.insert("end", f"{timestamp}: {text}\n")
     Out_textbox.configure(state="disabled")
 
+
 def save_cookie():
     global cookie
     Cookie_in = tk.CTkInputDialog(text="Input Roblox Cookie:", title="Cookie")
