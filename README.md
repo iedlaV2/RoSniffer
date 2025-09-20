@@ -6,7 +6,10 @@ Uses Geolite Database for IP sorting.
 
 Files stored in C:\ServerFinder
 
+Inspired by Oqarshi's Rolocate Script
+
 
 Picture
 
-<img width="492" height="592" alt="image" src="https://github.com/user-attachments/assets/5cd1d2ab-a0af-4610-805e-65584e5e09b3" />
+
+<img width="791" height="563" alt="image" src="https://github.com/user-attachments/assets/3d2bdaa4-599e-4a11-8c4b-4e326d8c5231" />
