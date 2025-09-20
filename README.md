@@ -15,9 +15,9 @@ Inspired by Oqarshi's Rolocate Script
 > [**How to extract your cookie**](#how-to-get-roblox-cookie)
 
 ## Features
-Roblox server finding tool.
-Server sorting for HK,SG,GB,FR,DE,JP,IN,AU,KR,NL
-Saves cookie between uses.
+-Roblox server finding tool.\
+-Server sorting for HK,SG,GB,FR,DE,JP,IN,AU,KR,NL\
+-Saves cookie between uses.\
 
 ## GUI 
 
