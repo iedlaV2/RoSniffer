@@ -12,4 +12,4 @@ Inspired by Oqarshi's Rolocate Script
 Picture
 
 
-<img width="800" height="565" alt="image" src="https://github.com/user-attachments/assets/771ba0b1-5bd9-4840-be25-dc79a23298ce" />
+<img width="791" height="563" alt="image" src="https://github.com/user-attachments/assets/3d2bdaa4-599e-4a11-8c4b-4e326d8c5231" />
