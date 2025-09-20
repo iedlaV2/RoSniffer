@@ -3,25 +3,28 @@ import time
 import os
 import threading
 import pygame as pg
-from Roblox_Search_Script import main,down_icon
+from Roblox_Search_Script import main,down_icon,down_sound
 cookie = None
 path = "C:/ServerFinder/"
 running = False
-sound = None
+sound = "ding.mp3"
 country_filter = []
 country_switch_vars = {}
-def icon():
+def icon_and_sound():
     try:
         if os.path.exists("C:/ServerFinder/logo.ico"):
-            print("logo exists")
             pass
         else:
             os.chdir("C:/ServerFinder/")
             down_icon()
-            print("downloaded logo")
+        if os.path.exists("C:/ServerFinder/ding.mp3"):
+            pass
+        else:
+            os.chdir("C:/ServerFinder/")
+            down_sound()
     except Exception as e:
         return "Failed to load logo"
-icon()
+icon_and_sound()
 def output(text):
     timestamp = time.strftime("%H:%M:%S")
     Out_textbox.configure(state="normal")

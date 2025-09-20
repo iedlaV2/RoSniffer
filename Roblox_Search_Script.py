@@ -11,6 +11,7 @@ mindmaxfilepath = "C:/ServerFinder/GeoLite2-Country.mmdb"
 mindmaxpath = "C:/ServerFinder/"
 mindmaxfetchlink = "https://drive.usercontent.google.com/download?id=1hyZmPjGCzDixKY6HYzFPhoxodl29Elkm&export=download&authuser=0"
 logofetch = "https://drive.usercontent.google.com/download?id=19XHw7nCHMRA47gbpAIwwCVzOtKraDjt5&export=download&authuser=0"
+soundfetch = "https://drive.usercontent.google.com/u/0/uc?id=1nEPIWSwsZu6d8GKLOcR_VKWPyIPUGjSo&export=download&"
 def mindmax_setup():
     global boolmindmax
     if not boolmindmax:
@@ -65,6 +66,20 @@ def down_icon():
         filename = "logo.ico"
         download_target_path = os.path.join(mindmaxpath, filename)
         response = requests.get(logofetch, stream=True, timeout=30)
+        response.raise_for_status()
+        with open(download_target_path, 'wb') as f:
+            for chunk in response.iter_content(chunk_size=8192):
+                f.write(chunk)
+        return "Downloaded logo successfully."
+    except Exception as e:
+        return"Failed to download logo"
+
+def down_sound():
+    try:
+        os.chdir("C:/ServerFinder/")
+        filename = "ding.mp3"
+        download_target_path = os.path.join(mindmaxpath, filename)
+        response = requests.get(soundfetch, stream=True, timeout=30)
         response.raise_for_status()
         with open(download_target_path, 'wb') as f:
             for chunk in response.iter_content(chunk_size=8192):
