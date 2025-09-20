@@ -7,7 +7,7 @@ from Roblox_Search_Script import main
 cookie = None
 path = "C:/ServerFinder/"
 running = False
-sound = "Ding.mp3"
+sound = None
 
 def output(text):
     timestamp = time.strftime("%H:%M:%S")
@@ -116,41 +116,64 @@ def load_cookie():
 if __name__ == "__main__":
 
     root = tk.CTk()
-    root.geometry('500x600')
+    root.geometry('800x550')
     root.title('funky functions')
     root.grid_rowconfigure(0, weight=1)
     root.grid_columnconfigure(0, weight=1)
     pg.mixer.init()
 
-    frame = tk.CTkFrame(root,width=400,height=500)
-    frame.pack(pady=30)
+    main_frame = tk.CTkFrame(root)
+    main_frame.pack(padx=10, pady=10, fill="both", expand=True, anchor="w")
 
-    title_label =  tk.CTkLabel(frame,text='Roblox Server Search',font=tk.CTkFont(size=30,weight='bold'))
-    title_label.pack(padx=10,pady=(30,10))
+    #Main
+    left_frame = tk.CTkFrame(main_frame,width=350,height=500)
+    left_frame.grid(row=0, column=0,pady=30)
 
-    label1 =  tk.CTkLabel(frame,text='Roblox Game ID',font=tk.CTkFont(size=20))
+    title_label =  tk.CTkLabel(left_frame,text='Roblox Server Search',font=tk.CTkFont(size=30,weight='bold'))
+    title_label.pack(padx=50,pady=10,anchor="nw")
+
+    label1 =  tk.CTkLabel(left_frame,text='Roblox Game ID',font=tk.CTkFont(size=20))
     label1.pack(padx=10,pady=(20, 10))
 
-    PlaceID_textbox = tk.CTkTextbox(frame,height=25,width=400,font=tk.CTkFont(size=15),activate_scrollbars=False)
+    PlaceID_textbox = tk.CTkTextbox(left_frame,height=25,width=400,font=tk.CTkFont(size=15),activate_scrollbars=False)
     PlaceID_textbox.pack(padx=10,pady=(5,10))
 
-    label2 =  tk.CTkLabel(frame,text='Output',font=tk.CTkFont(size=20))
+    label2 =  tk.CTkLabel(left_frame,text='Output',font=tk.CTkFont(size=20))
     label2.pack(padx=10,pady=(10, 10))
 
-    Out_textbox = tk.CTkTextbox(frame,height=200,width=400,font=tk.CTkFont(size=15),state="disabled")
+    Out_textbox = tk.CTkTextbox(left_frame,height=200,width=400,font=tk.CTkFont(size=15),state="disabled")
     Out_textbox.pack(padx=10,pady=(5,10))
 
-    run_button = tk.CTkButton(frame,text='Run',command=Gui_main)
+    run_button = tk.CTkButton(left_frame,text='Run',command=Gui_main)
     run_button.pack(pady=5)
 
-    cookie_button = tk.CTkButton(root, text="Save Cookies", command=save_cookie,height=5,width=15,corner_radius=3)
-    cookie_button.pack(side=tk.BOTTOM, anchor=tk.SE)
+    #MISC
+    Misc_frame = tk.CTkFrame(main_frame, width=250, height=150)
+    Misc_frame.grid(row=0, column=1, padx=10, pady=30, sticky="ne")
+    Misc_frame.grid_columnconfigure(0, weight=1)
+    Misc_frame.grid_columnconfigure(1, weight=1)
+    Misc_frame.grid_rowconfigure(0, weight=0)
+    Misc_frame.grid_rowconfigure(1, weight=0)
+    Misc_frame.grid_rowconfigure(2, weight=0)
+    Misc_frame.grid_rowconfigure(3, weight=0)
+    Misc_frame.grid_rowconfigure(4, weight=1)
 
-    cookie_load_button = tk.CTkButton(root, text="Load Cookies", command=load_cookie,height=5,width=15,corner_radius=3)
-    cookie_load_button.pack(pady=(5,5) ,side=tk.BOTTOM, anchor=tk.SE)
+    Misc_label = tk.CTkLabel(Misc_frame, text='Misc', font=tk.CTkFont(size=20, weight='bold'))
+    Misc_label.grid(row=2, column=0, padx=10, pady=(5,10), sticky="ew")
 
-    sound_button = tk.CTkButton(root, text="Change Sound", command=choose_sound,height=10,width=15)
-    sound_button.pack(side=tk.BOTTOM, anchor=tk.SW)
+    sound_button = tk.CTkButton(Misc_frame, text="Change Sound", command=choose_sound,
+                                height=25, width=120, corner_radius=8)
+    sound_button.grid(row=1, column=1, padx=(50,100), pady=(5,5), sticky="e")
+    #cookie actions
+    cookie_load_button = tk.CTkButton(Misc_frame, text="Load Cookies", command=load_cookie,
+                                      height=25, width=120, corner_radius=8)
+    cookie_load_button.grid(row=2, column=1, padx=(50,100), pady=(5,5), sticky="e")
+
+    cookie_button = tk.CTkButton(Misc_frame, text="Save Cookies", command=save_cookie,
+                                 height=25, width=120, corner_radius=8)
+    cookie_button.grid(row=3, column=1, padx=(50,100), pady=(5,5), sticky="e")
+
+
 
 
 
