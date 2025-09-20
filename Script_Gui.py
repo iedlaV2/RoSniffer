@@ -3,14 +3,25 @@ import time
 import os
 import threading
 import pygame as pg
-from Roblox_Search_Script import main
+from Roblox_Search_Script import main,down_icon
 cookie = None
 path = "C:/ServerFinder/"
 running = False
 sound = None
 country_filter = []
 country_switch_vars = {}
-
+def icon():
+    try:
+        if os.path.exists("C:/ServerFinder/logo.ico"):
+            print("logo exists")
+            pass
+        else:
+            os.chdir("C:/ServerFinder/")
+            down_icon()
+            print("downloaded logo")
+    except Exception as e:
+        return "Failed to load logo"
+icon()
 def output(text):
     timestamp = time.strftime("%H:%M:%S")
     Out_textbox.configure(state="normal")
@@ -126,10 +137,11 @@ def switch_event(country):
 if __name__ == "__main__":
     root = tk.CTk()
     root.geometry('800x550')
-    root.title('funky functions')
+    root.title('RoSniffer by Iedla')
     root.grid_rowconfigure(0, weight=1)
     root.grid_columnconfigure(0, weight=1)
     pg.mixer.init()
+    root.iconbitmap("C:/ServerFinder/logo.ico")
 
     main_frame = tk.CTkFrame(root)
     main_frame.pack(padx=10, pady=10, fill="both", expand=True, anchor="w")
@@ -141,17 +153,20 @@ if __name__ == "__main__":
     left_frame = tk.CTkFrame(main_frame,width=350,height=500)
     left_frame.grid(row=0, column=0,pady=30,sticky="w")
 
-    title_label =  tk.CTkLabel(left_frame,text='Roblox Server Search',font=tk.CTkFont(size=30,weight='bold'))
-    title_label.pack(padx=50,pady=10,anchor="nw")
+    title_label =  tk.CTkLabel(left_frame,text='RoSniffer',font=tk.CTkFont(size=30,weight='bold'))
+    title_label.pack(padx=50,pady=(8,0),anchor="n")
+
+    description =  tk.CTkLabel(left_frame,text='A roblox server searcher',font=tk.CTkFont(size=10))
+    description.pack(padx=10,pady=(0, 3))
 
     label1 =  tk.CTkLabel(left_frame,text='Roblox Game ID',font=tk.CTkFont(size=20))
-    label1.pack(padx=10,pady=(20, 10))
+    label1.pack(padx=10,pady=(8, 10))
 
     PlaceID_textbox = tk.CTkTextbox(left_frame,height=25,width=400,font=tk.CTkFont(size=15),activate_scrollbars=False)
-    PlaceID_textbox.pack(padx=10,pady=(5,10))
+    PlaceID_textbox.pack(padx=10,pady=(5,8))
 
     label2 =  tk.CTkLabel(left_frame,text='Output',font=tk.CTkFont(size=20))
-    label2.pack(padx=10,pady=(10, 10))
+    label2.pack(padx=10,pady=(5, 8))
 
     Out_textbox = tk.CTkTextbox(left_frame,height=200,width=400,font=tk.CTkFont(size=15),state="disabled")
     Out_textbox.pack(padx=10,pady=(5,10))

@@ -10,8 +10,7 @@ boolmindmax = False
 mindmaxfilepath = "C:/ServerFinder/GeoLite2-Country.mmdb"
 mindmaxpath = "C:/ServerFinder/"
 mindmaxfetchlink = "https://drive.usercontent.google.com/download?id=1hyZmPjGCzDixKY6HYzFPhoxodl29Elkm&export=download&authuser=0"
-
-
+logofetch = "https://drive.usercontent.google.com/download?id=19XHw7nCHMRA47gbpAIwwCVzOtKraDjt5&export=download&authuser=0"
 def mindmax_setup():
     global boolmindmax
     if not boolmindmax:
@@ -59,6 +58,20 @@ def mindmax_lookup(serverip: str) -> dict or None:
     except Exception as e:
         print(f"GeoLite2  failed for {serverip} because of {e}")
         return None
+
+def down_icon():
+    try:
+        os.chdir("C:/ServerFinder/")
+        filename = "logo.ico"
+        download_target_path = os.path.join(mindmaxpath, filename)
+        response = requests.get(logofetch, stream=True, timeout=30)
+        response.raise_for_status()
+        with open(download_target_path, 'wb') as f:
+            for chunk in response.iter_content(chunk_size=8192):
+                f.write(chunk)
+        return "Downloaded logo successfully."
+    except Exception as e:
+        return"Failed to download logo"
 
 
 def fetch_serverid(place_id: int) -> list[str]:
