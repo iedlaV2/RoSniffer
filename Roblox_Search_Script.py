@@ -182,7 +182,7 @@ def sorting_threading(place_id: int, gameidlist: list[str], rblxtoken: str) -> l
     print(f"Processed: {len(results)} servers in {end - start:.2f} seconds.")
     return results
 
-def main(cookie,PlaceID):
+def main(cookie,PlaceID,filter):
     cookietemp = cookie
     place_id_input = PlaceID
 
@@ -194,7 +194,6 @@ def main(cookie,PlaceID):
 
         final_servers = sorting_threading(place_id_input, gameid, cookietemp)
 
-        print("\n--- Servers (Hong Kong & Singapore Only) ---")
         found_filtered_servers = False
         if final_servers:
             for server in final_servers:
@@ -202,15 +201,17 @@ def main(cookie,PlaceID):
                 location_info = server.get('location_data', {})
                 country_code = location_info.get('country_code', 'N/A')
 
-                if country_code in ["HK", "SG"]:
-                    base_share_url = "https://oqarshi.github.io/Invite/"
+                if country_code in filter:
+                    text = f"\n--- {country_code} Server ---"
+                    base_share_url = "\nhttps://oqarshi.github.io/Invite/"
                     share_link = f"{base_share_url}?placeid={place_id_input}&serverid={id}"
                     found_filtered_servers = True
                     print(share_link)
-                    return share_link
+                    link = text + share_link
+                    return link
 
         if not found_filtered_servers:
-            print("No servers found in Hong Kong or Singapore.")
+            print(f"No servers found in {filter}.")
             print("Searching again in 10 seconds...")
             time.sleep(10)
             return search()
