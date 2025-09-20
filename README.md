@@ -3,21 +3,19 @@
 Application to find roblox servers in most regions.
 (Not every country has Roblox servers.)
 
-Uses Geolite Database for IP identification.
-
-Files & Cookie stored in C:\ServerFinder
-
+Uses Geolite Database for IP identification.\
+Files & Cookie stored in C:\ServerFinder\
 Inspired by Oqarshi's Rolocate Script
 
 > [!NOTE]
-> The application does not automatically fetch your roblox cookie. You will have to do it manually.
-> You can use any accounts roblox cookie for this. So if you dont trust this program you can use an alts cookie
+> The application does not automatically fetch your roblox cookie. You will have to do it manually.\
+> You can use any accounts roblox cookie for this. So if you dont trust this program you can use an alts cookie\
 > [**How to extract your cookie**](#how-to-get-roblox-cookie)
 
 ## Features
 -Roblox server finding tool.\
 -Server sorting for HK,SG,GB,FR,DE,JP,IN,AU,KR,NL\
--Saves cookie between uses.\
+-Saves cookie between uses.
 
 ## GUI 
 
