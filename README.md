@@ -1,6 +1,7 @@
 # Roblox-server-search
 
-Search for most regions that have Roblox servers.
+Application to search for roblox servers in most regions.
+(Not every country has Roblox servers.)
 
 Uses Geolite Database for IP sorting.
 
