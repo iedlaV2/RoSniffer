@@ -1,4 +1,4 @@
-# Roblox-server-search
+# RoSniffer
 
 Application to find roblox servers in most regions.
 (Not every country has Roblox servers.)
@@ -14,7 +14,7 @@ Inspired by Oqarshi's Rolocate Script
 
 ## Features
 -Roblox server finding tool using the [**game ID**](#how-to-get-game-id).\
--Server sorting for HK,SG,GB,FR,DE,JP,IN,AU,KR,NL\
+-Server sorting for HK, SG, GB, FR, DE, JP, IN, AU, KR, NL\
 -Saves cookie between uses.
 
 ## GUI 
