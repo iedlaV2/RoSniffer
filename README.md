@@ -1,4 +1,4 @@
-### Roblox-server-search
+# Roblox-server-search
 
 Application to find roblox servers in most regions.
 (Not every country has Roblox servers.)
@@ -17,7 +17,7 @@ Inspired by Oqarshi's Rolocate Script
 
 ## GUI 
 
-# Features
+### Features
 
 <img width="798" height="576" alt="image" src="https://github.com/user-attachments/assets/667831e9-14ca-4063-85aa-0d2cebc2b7ed" />
 
