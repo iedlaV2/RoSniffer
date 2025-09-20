@@ -12,10 +12,10 @@ Inspired by Oqarshi's Rolocate Script
 > [!NOTE]
 > The application does not automatically fetch your roblox cookie. You will have to do it manually.
 > You can use any accounts roblox cookie for this. So if you dont trust this program you can use an alts cookie
-> **How to extract your cookie**[Link Text](#how-to-get-roblox-cookie)
+> [**How to extract your cookie**](#how-to-get-roblox-cookie)
 
 
-Picture
+#GUI 
 
 <img width="798" height="576" alt="image" src="https://github.com/user-attachments/assets/667831e9-14ca-4063-85aa-0d2cebc2b7ed" />
 
