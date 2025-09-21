@@ -10,8 +10,8 @@ boolmindmax = False
 mindmaxfilepath = "C:/ServerFinder/GeoLite2-Country.mmdb"
 mindmaxpath = "C:/ServerFinder/"
 mindmaxfetchlink = "https://drive.usercontent.google.com/download?id=1hyZmPjGCzDixKY6HYzFPhoxodl29Elkm&export=download&authuser=0"
-logofetch = "https://github.com/iedlaV2/Rosniffer-Downloads/releases/download/v0/logo.ico"
-soundfetch = "https://github.com/iedlaV2/Rosniffer-Downloads/releases/download/v0/ding.mp3"
+logofetch = "https://release-assets.githubusercontent.com/github-production-release-asset/1060991946/84699b35-8b74-4bc7-9a79-bf450bf53eeb?sp=r&sv=2018-11-09&sr=b&spr=https&se=2025-09-21T03%3A31%3A34Z&rscd=attachment%3B+filename%3Dlogo.ico&rsct=application%2Foctet-stream&skoid=96c2d410-5711-43a1-aedd-ab1947aa7ab0&sktid=398a6654-997b-47e9-b12b-9515b896b4de&skt=2025-09-21T02%3A31%3A20Z&ske=2025-09-21T03%3A31%3A34Z&sks=b&skv=2018-11-09&sig=J5jqWULaSivxMasWwBMTI5lF7h3xnqqNOpipnW2C1rc%3D&jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmVsZWFzZS1hc3NldHMuZ2l0aHVidXNlcmNvbnRlbnQuY29tIiwia2V5Ijoia2V5MSIsImV4cCI6MTc1ODQyMjU1MywibmJmIjoxNzU4NDIyMjUzLCJwYXRoIjoicmVsZWFzZWFzc2V0cHJvZHVjdGlvbi5ibG9iLmNvcmUud2luZG93cy5uZXQifQ.g_hTahtImk28jVXNO16q3sievdCDeYpuzCs4MouUtiU&response-content-disposition=attachment%3B%20filename%3Dlogo.ico&response-content-type=application%2Foctet-stream"
+soundfetch = "https://release-assets.githubusercontent.com/github-production-release-asset/1060991946/5334581c-e634-4610-b603-d139717694d0?sp=r&sv=2018-11-09&sr=b&spr=https&se=2025-09-21T03%3A10%3A28Z&rscd=attachment%3B+filename%3Dding.mp3&rsct=application%2Foctet-stream&skoid=96c2d410-5711-43a1-aedd-ab1947aa7ab0&sktid=398a6654-997b-47e9-b12b-9515b896b4de&skt=2025-09-21T02%3A09%3A45Z&ske=2025-09-21T03%3A10%3A28Z&sks=b&skv=2018-11-09&sig=XNzjhH4t63fVzbxLMN1ZPhvCyolh6uNqnqGRXFMSy0M%3D&jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmVsZWFzZS1hc3NldHMuZ2l0aHVidXNlcmNvbnRlbnQuY29tIiwia2V5Ijoia2V5MSIsImV4cCI6MTc1ODQyMjUyMSwibmJmIjoxNzU4NDIyMjIxLCJwYXRoIjoicmVsZWFzZWFzc2V0cHJvZHVjdGlvbi5ibG9iLmNvcmUud2luZG93cy5uZXQifQ.7sPdlbiPuYjWQSWBLCUlOZ3DRk2uGPHnWIw9kXmTQ8Y&response-content-disposition=attachment%3B%20filename%3Dding.mp3&response-content-type=application%2Foctet-stream"
 def mindmax_setup():
     global boolmindmax
     if not boolmindmax:
@@ -71,19 +71,6 @@ def down_icon():
         return "Downloaded logo successfully."
     except Exception as e:
         return"Failed to download logo"
-def down_font():
-    try:
-        os.chdir("C:/ServerFinder/")
-        filename = "MuseoSansCyrl.ttf"
-        download_target_path = os.path.join(mindmaxpath, filename)
-        response = requests.get(fontfetch, stream=True, timeout=30)
-        response.raise_for_status()
-        with open(download_target_path, 'wb') as f:
-            for chunk in response.iter_content(chunk_size=8192):
-                f.write(chunk)
-        return "Downloaded font successfully."
-    except Exception as e:
-        return"Failed to download font"
 def down_sound():
     try:
         os.chdir("C:/ServerFinder/")
