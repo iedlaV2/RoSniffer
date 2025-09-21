@@ -18,7 +18,7 @@ def game_explore(reqfilter):
         for game in games_lst:
             game_name = game.get("name")
             games_dict[game_name] = {
-                'Player Count': game.get("playerCount"),  # Use 'playerCount' from the API response
+                'Player Count': game.get("playerCount"),
                 'Game ID': game.get("rootPlaceId")
             }
         return games_dict
