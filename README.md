@@ -14,16 +14,18 @@ Inspired by Oqarshi's Rolocate Script
 
 ## Features
 -Roblox server finding tool using the [**game ID**](#how-to-get-game-id).\
--Server sorting for HK, SG, GB, FR, DE, JP, IN, AU, KR, NL\
+-Roblox game browser with some filtering options.\
+-Server sorting for HK, SG, GB, FR, DE, JP, IN, AU, KR, NL.\
 -Saves cookie between uses.
 ### Future
--Discovery page fetched from roblox\
--Undecided
+-Roblox game search to search for games with their name.\
+-Undecided.
 
 ## GUI 
 
-<img width="792" height="571" alt="image" src="https://github.com/user-attachments/assets/392f7cc9-3910-434e-a63b-a6b3d610f140" />
+<img width="997" height="622" alt="image" src="https://github.com/user-attachments/assets/491c1400-2ce0-41fa-a04f-7691c33596ba" />
 
+<img width="987" height="615" alt="image" src="https://github.com/user-attachments/assets/f5980739-7836-4159-b533-001f9896e7af" />
 
 
 ## How to get Game ID
