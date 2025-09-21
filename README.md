@@ -23,9 +23,11 @@ Inspired by Oqarshi's Rolocate Script
 
 ## GUI 
 
-<img width="997" height="622" alt="image" src="https://github.com/user-attachments/assets/491c1400-2ce0-41fa-a04f-7691c33596ba" />
+<img width="998" height="621" alt="image" src="https://github.com/user-attachments/assets/320401e3-a1fc-42e9-a232-277456b2f563" />
 
-<img width="987" height="615" alt="image" src="https://github.com/user-attachments/assets/f5980739-7836-4159-b533-001f9896e7af" />
+
+<img width="993" height="624" alt="image" src="https://github.com/user-attachments/assets/f5e2f763-2b00-438c-a7a8-7da324c9b8aa" />
+
 
 
 ## How to get Game ID
