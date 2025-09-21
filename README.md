@@ -19,6 +19,7 @@ Inspired by Oqarshi's Rolocate Script
 -Saves cookie between uses.
 ### Future
 -Roblox game search to search for games with their name.\
+-MacOs Support\
 -Undecided.
 
 ## GUI 
