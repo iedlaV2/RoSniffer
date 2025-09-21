@@ -3,7 +3,7 @@ import time, os, threading,queue,pyperclip,webbrowser
 import pygame as pg
 import matplotlib.font_manager as fm
 from PIL import Image
-from Roblox_Search_Script import main,down_icon,down_sound,down_font
+from Roblox_Search_Script import main,down_icon,down_sound
 from Game_Fetch import game_explore, roblox_search
 cookie = None
 path = "C:/ServerFinder/"
