@@ -9,6 +9,7 @@ cookie = None
 path = "C:/ServerFinder/"
 sound = None
 selection = "Top Playing"
+custom_font = "Calibri"
 country_filter = []
 country_switch_vars = {}
 sort_selection_dict = {
@@ -17,6 +18,15 @@ sort_selection_dict = {
     "Up And Coming":"up-and-coming",
     "Fun with Friends":"fun-with-friends"
 }
+all_fetched_games = {}
+cur_page_index = 0
+items_per_page = 20
+total_pages = 0
+page_info_label = None
+prev_page_button = None
+next_page_button = None
+fetch_in_progress = False
+
 
 #Icon, Sounds & Misc
 def icon_and_sound():
@@ -96,21 +106,8 @@ def clipboard(copy):
 def send_website(gameid):
     url = f"https://www.roblox.com/games/{gameid}"
     webbrowser.open(url)
-def font_manage():
-    font_path = "C:/ServerFinder/MuseoSansCyrl.ttf"
-    try:
-        if os.path.exists("C:/ServerFinder/MuseoSansCyrl.ttf"):
-            pass
-        else:
-            os.chdir("C:/ServerFinder/")
-            down_font()
-        fm.fontManager.addfont(font_path)
 
-        font_properties = fm.FontProperties(fname=font_path)
-        font_name = font_properties.get_name()
-    except Exception as e:
-        return "Failed to load font"
-custom_font = font_manage()
+
 
 #Cookies
 def save_cookie():
@@ -183,41 +180,30 @@ def switch_event(country):
         country_filter.remove(country)
 
 #Discovery
+fetch_in_progress = False
 game_fetch = queue.Queue()
 def sort_selection():
-    global explore_filter, games_list
-    explore_filter = sort_selection_dict[selection]
-    print(explore_filter)
-    games_list = start_disc_fetch(explore_filter)
-    try:
-        games_list = game_fetch.get(timeout=10)
-        if isinstance(games_list, Exception):
-            print(f"Error fetching games in thread: {games_list}")
-            games_list = {}
-        else:
-            print(games_list)
-            print("Games fetched successfully!")
-            display_on_frame(games_list)
+    global explore_filter, fetch_in_progress, cur_page_index, all_fetched_games, total_pages
 
-    except queue.Empty:
-        print("Timed out waiting for games to be fetched.")
-        games_list = {}
-    except Exception as e:
-        print(f"An unexpected error occurred while getting games from queue: {e}")
-        games_list = {}
-def store_selection(choice):
-    global selection
-    selection = choice
-def run_disc_fetch(reqfilter):
-    try:
-        result = game_explore(reqfilter)
-        game_fetch.put(result)
-    except Exception as e:
-        game_fetch.put(e)
-def start_disc_fetch(reqfilter):
-    disc_thread = threading.Thread(target=run_disc_fetch,args=(reqfilter,))
-    disc_thread.daemon = True
-    disc_thread.start()
+    if fetch_in_progress:
+        output("Fetch already in progress. Please wait.")
+        return
+
+    explore_filter = sort_selection_dict[selection]
+    output(f"--- Fetching games for: {explore_filter} ---")
+    fetch_in_progress = True
+
+    for widget in out_frame.winfo_children():
+        widget.destroy()
+    tk.CTkLabel(out_frame, text="Loading games...", font=(custom_font, 12)).pack(pady=10)
+
+
+    if prev_page_button: prev_page_button.configure(state="disabled")
+    if next_page_button: next_page_button.configure(state="disabled")
+    if page_info_label: page_info_label.configure(text="Loading...")
+
+    start_disc_fetch(explore_filter)
+    root.after(100, check_game_fetch_queue)
 def display_on_frame(gamelst):
     for widget in out_frame.winfo_children():
         widget.destroy()
@@ -246,8 +232,130 @@ def display_on_frame(gamelst):
 
         gameid_send_button = tk.CTkButton(game_frame,text="Go to Website",fg_color="transparent",hover_color="royal blue",border_color="#222222",font=tk.CTkFont(family=custom_font, size=15),command=lambda current_game_id=game_id: send_website(current_game_id))
         gameid_send_button.pack(anchor="e")
+def check_game_fetch_queue():
+    global all_fetched_games, fetch_in_progress, cur_page_index, total_pages
+
+    if not fetch_in_progress:
+        return
+
+    try:
+        fetched_data = game_fetch.get(block=False)
+
+        if isinstance(fetched_data, Exception):
+            all_fetched_games = {}
+            for widget in out_frame.winfo_children(): widget.destroy()
+            tk.CTkLabel(out_frame, text=f"Error: {fetched_data}", font=(custom_font, 12), text_color="red").pack(
+                pady=10)
+        else:
+            output("Games fetched successfully!")
+            all_fetched_games = fetched_data
+            cur_page_index = 0
+            total_games = len(all_fetched_games)
+            total_pages = (total_games + items_per_page - 1) // items_per_page
+            display_current_page()
+
+        fetch_in_progress = False
+
+    except queue.Empty:
+        root.after(100, check_game_fetch_queue)
+
+    except Exception as e:
+        output(f"An unexpected error occurred while getting games from queue: {e}")
+        all_fetched_games = {}
+        fetch_in_progress = False
+def store_selection(choice):
+    global selection
+    selection = choice
+def run_disc_fetch(reqfilter):
+    try:
+        result = game_explore(reqfilter)
+        game_fetch.put(result)
+    except Exception as e:
+        game_fetch.put(e)
+def start_disc_fetch(reqfilter):
+    disc_thread = threading.Thread(target=run_disc_fetch,args=(reqfilter,))
+    disc_thread.daemon = True
+    disc_thread.start()
+def display_current_page():
+    global cur_page_index, items_per_page, all_fetched_games, total_pages
+
+    for widget in out_frame.winfo_children():
+        widget.destroy()
+
+    if not all_fetched_games:
+        tk.CTkLabel(out_frame, text="No games to display.", font=tk.CTkFont(family=custom_font, size=12)).pack(pady=10)
+        if prev_page_button: prev_page_button.configure(state="disabled")
+        if next_page_button: next_page_button.configure(state="disabled")
+        if page_info_label: page_info_label.configure(text="Page 0/0")
+        return
+
+    game_names = list(all_fetched_games.keys())
+    start_index = cur_page_index * items_per_page
+    end_index = min(start_index + items_per_page, len(game_names))
+
+    if start_index >= len(game_names):
+        tk.CTkLabel(out_frame, text="No more games on this page.", font=tk.CTkFont(family=custom_font, size=12)).pack(pady=10)
+        return
+
+    for i in range(start_index, end_index):
+        game_name = game_names[i]
+        game_details_dict = all_fetched_games[game_name]
+
+        player_count = game_details_dict.get('Player Count', 'N/A')
+        game_id = game_details_dict.get('Game ID', 'N/A')
+
+        game_frame = tk.CTkFrame(out_frame, corner_radius=10, border_color="#141414")
+        game_frame.pack(fill="x", pady=5, padx=10, ipady=5)
+
+        game_name_label = tk.CTkLabel(game_frame, text=game_name, font=tk.CTkFont(family=custom_font, size=20, weight="bold"))
+        game_name_label.pack(anchor="w", padx=5)
+
+        player_count_label = tk.CTkLabel(game_frame, text=f"Players: {player_count}", font=tk.CTkFont(family=custom_font, size=12))
+        player_count_label.pack(anchor="w", padx=5)
+
+        game_id_label = tk.CTkLabel(game_frame, text=f"Game ID: {game_id}", font=tk.CTkFont(family=custom_font, size=12))
+        game_id_label.pack(anchor="w", padx=5)
 
 
+        button_sub_frame = tk.CTkFrame(game_frame, fg_color="transparent")
+        button_sub_frame.pack(fill="x", anchor="e", pady=(5,0))
+        button_sub_frame.grid_columnconfigure(0, weight=1)
+        button_sub_frame.grid_columnconfigure(1, weight=0)
+        button_sub_frame.grid_columnconfigure(2, weight=0)
+
+        gameid_copy_button = tk.CTkButton(button_sub_frame,text="Copy ID",fg_color="transparent",hover_color="royal blue",border_color="#222222",font=tk.CTkFont(family=custom_font, size=12),command=lambda current_game_id=game_id: clipboard(current_game_id))
+        gameid_copy_button.grid(row=0, column=1, padx=(0,5), pady=2, sticky="e")
+
+        gameid_send_button = tk.CTkButton(button_sub_frame,text="Go to Website",fg_color="transparent",hover_color="royal blue",border_color="#222222",font=tk.CTkFont(family=custom_font, size=12),command=lambda current_game_id=game_id: send_website(current_game_id))
+        gameid_send_button.grid(row=0, column=2, padx=(0,5), pady=2, sticky="e")
+    update_navigation_buttons()
+def update_navigation_buttons():
+    global cur_page_index, total_pages
+
+    if page_info_label:
+        page_info_label.configure(text=f"Page {cur_page_index + 1}/{total_pages}")
+
+    if prev_page_button:
+        if cur_page_index > 0:
+            prev_page_button.configure(state="normal")
+        else:
+            prev_page_button.configure(state="disabled")
+
+    if next_page_button:
+        if cur_page_index < total_pages - 1:
+            next_page_button.configure(state="normal")
+        else:
+            next_page_button.configure(state="disabled")
+def go_to_previous_page():
+    global cur_page_index
+    if cur_page_index > 0:
+        cur_page_index -= 1
+        display_current_page()
+def go_to_next_page():
+    global cur_page_index, total_pages
+    if cur_page_index < total_pages - 1:
+        cur_page_index += 1
+        display_current_page()
 
 def server_search_page(parent_frame):
     global Out_textbox, PlaceID_textbox, content_frame
@@ -365,7 +473,7 @@ def server_search_page(parent_frame):
     output("Innitializing...")
     return content_frame
 def discover_page(parent_frame):
-    global discover_content_frame, out_frame
+    global discover_content_frame, out_frame, page_info_label, prev_page_button, next_page_button
     discover_content_frame = tk.CTkFrame(parent_frame, corner_radius=0,fg_color="transparent")
     discover_content_frame.grid(row=0, column=1, sticky="nsew")
     discover_content_frame.grid_columnconfigure(0, weight=4)
@@ -376,14 +484,31 @@ def discover_page(parent_frame):
 
     discover_left_frame = tk.CTkFrame(discover_content_frame)
     discover_left_frame.grid(row=0, column=0,pady=50,sticky="nsew")
-    discover_left_frame.grid_columnconfigure(0, weight=0)
+    discover_left_frame.grid_columnconfigure(0, weight=1)
     discover_left_frame.grid_rowconfigure(0, weight=1)
+    discover_left_frame.grid_rowconfigure(1, weight=0)
 
     out_frame = tk.CTkScrollableFrame(discover_left_frame,width=575,height=350)
     out_frame.grid(row=0, column=0,pady=0,padx=0,sticky="nsew")
 
-    game_name_label = tk.CTkLabel(out_frame, text="Search Now", font=(custom_font, 25, "bold"))
-    game_name_label.pack(anchor="w")
+    # Pagination Controls Frame (New)
+    pagination_frame = tk.CTkFrame(discover_left_frame, fg_color="transparent")
+    pagination_frame.grid(row=1, column=0, pady=(10,0), sticky="ew")
+    pagination_frame.grid_columnconfigure(0, weight=1)
+    pagination_frame.grid_columnconfigure(1, weight=1)
+    pagination_frame.grid_columnconfigure(2, weight=1)
+
+    prev_page_button = tk.CTkButton(pagination_frame, text="Previous", command=go_to_previous_page, state="disabled",
+                                    fg_color="royal blue", text_color="white", font=tk.CTkFont(family=custom_font, size=12))
+    prev_page_button.grid(row=0, column=0, padx=5, sticky="e")
+
+    page_info_label = tk.CTkLabel(pagination_frame, text="Page 0/0", font=tk.CTkFont(family=custom_font, size=12))
+    page_info_label.grid(row=0, column=1, padx=5)
+
+    next_page_button = tk.CTkButton(pagination_frame, text="Next", command=go_to_next_page, state="disabled",
+                                    fg_color="royal blue", text_color="white", font=tk.CTkFont(family=custom_font, size=12))
+    next_page_button.grid(row=0, column=2, padx=5, sticky="w")
+
 
     discover_right_frame = tk.CTkFrame(discover_content_frame)
     discover_right_frame.grid(row=0, column=1, pady=0, sticky="nsew")
@@ -404,12 +529,12 @@ def discover_page(parent_frame):
     filter_label_sort.grid(row=1, column=0, pady=10, padx=0, sticky="w")
 
     sort_box = tk.CTkComboBox(discover_right_frame,values=["Top Playing","Top Trending","Up And Coming","Fun with Friends"],
-                              command=lambda choice:[store_selection(choice),],state="readonly")
+                              command=store_selection,
+                              state="readonly")
     sort_box.grid(row=2,column=0,pady=10,sticky="n")
-    sort_box.set("Top Playing")
+    sort_box.set(selection)
 
-
-    sort_button = tk.CTkButton(discover_right_frame, text="Find Games", compound="left", command=sort_selection,
+    sort_button = tk.CTkButton(discover_right_frame, text="Fetch Games", compound="left", command=sort_selection,
                               anchor="center",
                               fg_color="royal blue", text_color="white",
                               font=tk.CTkFont(family=custom_font))
@@ -428,6 +553,7 @@ class App(tk.CTk):
         self.grid_rowconfigure(0, weight=1)
         self.grid_columnconfigure(0, weight=1)
         pg.mixer.init()
+        pg.mixer.music.set_volume(0.5)
         self.iconbitmap("C:/ServerFinder/logo.ico")
 
         main_frame = tk.CTkFrame(self)
