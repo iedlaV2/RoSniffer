@@ -5,49 +5,58 @@ import time
 import os
 import geoip2.database
 import json
+import webbrowser
 
 boolmindmax = False
-mindmaxfilepath = "C:/ServerFinder/GeoLite2-Country.mmdb"
-mindmaxpath = "C:/ServerFinder/"
 mindmaxfetchlink = "https://drive.usercontent.google.com/download?id=1hyZmPjGCzDixKY6HYzFPhoxodl29Elkm&export=download&authuser=0"
-logofetch = "https://release-assets.githubusercontent.com/github-production-release-asset/1060991946/84699b35-8b74-4bc7-9a79-bf450bf53eeb?sp=r&sv=2018-11-09&sr=b&spr=https&se=2025-09-21T03%3A31%3A34Z&rscd=attachment%3B+filename%3Dlogo.ico&rsct=application%2Foctet-stream&skoid=96c2d410-5711-43a1-aedd-ab1947aa7ab0&sktid=398a6654-997b-47e9-b12b-9515b896b4de&skt=2025-09-21T02%3A31%3A20Z&ske=2025-09-21T03%3A31%3A34Z&sks=b&skv=2018-11-09&sig=J5jqWULaSivxMasWwBMTI5lF7h3xnqqNOpipnW2C1rc%3D&jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmVsZWFzZS1hc3NldHMuZ2l0aHVidXNlcmNvbnRlbnQuY29tIiwia2V5Ijoia2V5MSIsImV4cCI6MTc1ODQyMjU1MywibmJmIjoxNzU4NDIyMjUzLCJwYXRoIjoicmVsZWFzZWFzc2V0cHJvZHVjdGlvbi5ibG9iLmNvcmUud2luZG93cy5uZXQifQ.g_hTahtImk28jVXNO16q3sievdCDeYpuzCs4MouUtiU&response-content-disposition=attachment%3B%20filename%3Dlogo.ico&response-content-type=application%2Foctet-stream"
-soundfetch = "https://release-assets.githubusercontent.com/github-production-release-asset/1060991946/5334581c-e634-4610-b603-d139717694d0?sp=r&sv=2018-11-09&sr=b&spr=https&se=2025-09-21T03%3A10%3A28Z&rscd=attachment%3B+filename%3Dding.mp3&rsct=application%2Foctet-stream&skoid=96c2d410-5711-43a1-aedd-ab1947aa7ab0&sktid=398a6654-997b-47e9-b12b-9515b896b4de&skt=2025-09-21T02%3A09%3A45Z&ske=2025-09-21T03%3A10%3A28Z&sks=b&skv=2018-11-09&sig=XNzjhH4t63fVzbxLMN1ZPhvCyolh6uNqnqGRXFMSy0M%3D&jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmVsZWFzZS1hc3NldHMuZ2l0aHVidXNlcmNvbnRlbnQuY29tIiwia2V5Ijoia2V5MSIsImV4cCI6MTc1ODQyMjUyMSwibmJmIjoxNzU4NDIyMjIxLCJwYXRoIjoicmVsZWFzZWFzc2V0cHJvZHVjdGlvbi5ibG9iLmNvcmUud2luZG93cy5uZXQifQ.7sPdlbiPuYjWQSWBLCUlOZ3DRk2uGPHnWIw9kXmTQ8Y&response-content-disposition=attachment%3B%20filename%3Dding.mp3&response-content-type=application%2Foctet-stream"
-def mindmax_setup():
-    global boolmindmax
-    if not boolmindmax:
-        try:
-            if not os.path.exists(mindmaxfilepath):
-                print("GeoLite2 database not found. Attempting download...")
-                os.makedirs(mindmaxpath, exist_ok=True)
-                filename = "GeoLite2-Country.mmdb"
-                download_target_path = os.path.join(mindmaxpath, filename)
+logofetch = "https://github.com/iedlaV2/Rosniffer-Downloads/releases/download/v0/logo.ico"
+soundfetch = "https://github.com/iedlaV2/Rosniffer-Downloads/releases/download/v0/ding.mp3"
 
-                print(f"Downloading to: {download_target_path}")
-                response = requests.get(mindmaxfetchlink, stream=True, timeout=30)
-                response.raise_for_status()
-                with open(download_target_path, 'wb') as f:
-                    for chunk in response.iter_content(chunk_size=8192):
-                        f.write(chunk)
-
-                boolmindmax = True
-                print("Downloaded GeoLite2 database successfully.")
-            else:
-                boolmindmax = True
-                print("GeoLite2 database exists.")
-        except requests.exceptions.RequestException as e:
-            print(f"GeoLite2 download failed due to network error: {e}")
-            return False
-        except Exception as e:
-            return(f"GeoLite2 setup failed because of: {e}")
-            return False
-    return boolmindmax
+def down_icon(target_full_path):
+    try:
+        response = requests.get(logofetch, stream=True, timeout=30)
+        response.raise_for_status()
+        with open(target_full_path, 'wb') as f:
+            for chunk in response.iter_content(chunk_size=8192):
+                f.write(chunk)
+        return f"Downloaded logo successfully to {target_full_path}."
+    except requests.exceptions.RequestException as e:
+        return f"Failed to save logo to {target_full_path}: {e}"
+    except Exception as e:
+        return f"An unexpected error occurred during logo download: {e}"
+def down_sound(target_full_path):
+    try:
+        response = requests.get(soundfetch, stream=True, timeout=30)
+        response.raise_for_status()
+        with open(target_full_path, 'wb') as f:
+            for chunk in response.iter_content(chunk_size=8192):
+                f.write(chunk)
+        return f"Downloaded sound successfully to {target_full_path}."
+    except requests.exceptions.RequestException as e:
+        return f"Failed to download sound from {soundfetch}: {e}"
+    except Exception as e:
+        return f"An unexpected error occurred during sound download: {e}"
+def down_db(mindmax_target_full_path):
+    global mindmax_path
+    mindmax_path = mindmax_target_full_path
+    try:
+        response = requests.get(mindmaxfetchlink, stream=True, timeout=30)
+        response.raise_for_status()
+        with open(mindmax_target_full_path, 'wb') as f:
+            for chunk in response.iter_content(chunk_size=8192):
+                f.write(chunk)
+        return f"Downloaded sound successfully to {mindmax_target_full_path}."
+    except requests.exceptions.RequestException as e:
+        return f"Failed to download sound from {soundfetch}: {e}"
+    except Exception as e:
+        return f"An unexpected error occurred during sound download: {e}"
 def mindmax_lookup(serverip: str) -> dict or None:
-    if not boolmindmax or not os.path.exists(mindmaxfilepath):
+    if not boolmindmax or not os.path.exists(mindmax_path):
         print("GeoLite2 database not setup or found.")
         return None
 
     try:
-        with geoip2.database.Reader(mindmaxfilepath) as reader:
+        with geoip2.database.Reader(mindmax_path) as reader:
             response = reader.country(serverip)
             country_code = response.country.iso_code
             return {
@@ -58,34 +67,6 @@ def mindmax_lookup(serverip: str) -> dict or None:
     except Exception as e:
         print(f"GeoLite2  failed for {serverip} because of {e}")
         return None
-def down_icon():
-    try:
-        os.chdir("C:/ServerFinder/")
-        filename = "logo.ico"
-        download_target_path = os.path.join(mindmaxpath, filename)
-        response = requests.get(logofetch, stream=True, timeout=30)
-        response.raise_for_status()
-        with open(download_target_path, 'wb') as f:
-            for chunk in response.iter_content(chunk_size=8192):
-                f.write(chunk)
-        return "Downloaded logo successfully."
-    except Exception as e:
-        return"Failed to download logo"
-def down_sound():
-    try:
-        os.chdir("C:/ServerFinder/")
-        filename = "ding.mp3"
-        download_target_path = os.path.join(mindmaxpath, filename)
-        response = requests.get(soundfetch, stream=True, timeout=30)
-        response.raise_for_status()
-        with open(download_target_path, 'wb') as f:
-            for chunk in response.iter_content(chunk_size=8192):
-                f.write(chunk)
-        return "Downloaded logo successfully."
-    except Exception as e:
-        return"Failed to download logo"
-
-
 
 def fetch_serverid(place_id: int) -> list[str]:
     fetchurl = f"https://games.roblox.com/v1/games/{place_id}/servers/public"
@@ -212,9 +193,6 @@ def main(cookie,PlaceID,filter):
     cookietemp = cookie
     place_id_input = PlaceID
 
-    if not mindmax_setup():
-        print("GeoLite2 setup failed. Location lookups will not work.")
-        return False
     def search():
         gameid = fetch_serverid(place_id_input)
 
@@ -229,11 +207,12 @@ def main(cookie,PlaceID,filter):
 
                 if country_code in filter:
                     text = f"--- {country_code} Server ---"
-                    base_share_url = "\nhttps://oqarshi.github.io/Invite/"
+                    base_share_url = "\nhttps://iedlav2.github.io/RoSniffer-Forwarder/"
                     share_link = f"{base_share_url}?placeid={place_id_input}&serverid={id}"
                     found_filtered_servers = True
                     print(share_link)
                     link = text + share_link
+                    webbrowser.open(link)
                     return link
 
         if not found_filtered_servers:

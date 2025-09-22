@@ -1,13 +1,9 @@
 import customtkinter as tk
-import time, os, threading,queue,pyperclip,webbrowser
+import time, os, threading,queue,pyperclip,webbrowser,sys
 import pygame as pg
-import matplotlib.font_manager as fm
 from PIL import Image
-from Roblox_Search_Script import main,down_icon,down_sound
-from Game_Fetch import game_explore, roblox_search
-cookie = None
-path = "C:/ServerFinder/"
-sound = None
+from Roblox_Search_Script import main,down_icon,down_sound,down_db
+from Game_Fetch import game_explore
 selection = "Top Playing"
 custom_font = "Calibri"
 country_filter = []
@@ -22,71 +18,129 @@ all_fetched_games = {}
 cur_page_index = 0
 items_per_page = 20
 total_pages = 0
+
+logo = "logo.ico"
+default_sound = "ding.mp3"
+cookie_dir = "cookie.txt"
+sound_cfg = "sound_cfg.txt"
+db = "GeoLite2-Country.mmdb"
+cookie = None
+resource_base_path = None
+sound = None
+
+
 page_info_label = None
 prev_page_button = None
 next_page_button = None
 fetch_in_progress = False
 
 
-#Icon, Sounds & Misc
-def icon_and_sound():
-    global sound
+#Setup
+def setup_user(app_name="RoSniffer"):
+    global user_data_dir, resource_base_path
+
+    if getattr(sys, 'frozen', False):
+        resource_base_path = sys._MEIPASS
+    else:
+        resource_base_path = os.path.dirname(os.path.abspath(__file__))
+
+    if sys.platform == 'darwin':  # macOS
+        detect_user_data_dir = os.path.join(os.path.expanduser("~"), "Documents", app_name)
+    elif sys.platform == 'win32': # Windows os
+        detect_user_data_dir = os.path.join("C:\\", app_name)
+    elif sys.platform.startswith('linux'): # Linux
+        detect_user_data_dir = os.path.join(os.path.expanduser("~"), app_name)
+    else: # Fallback for others
+        detect_user_data_dir = os.path.join(os.path.expanduser("~"), f".{app_name.lower()}")
+
     try:
-        if os.path.exists("C:/ServerFinder/logo.ico"):
-            pass
-        else:
-            os.chdir("C:/ServerFinder/")
-            down_icon()
-            sound = "ding.mp3"
-        if os.path.exists("C:/ServerFinder/ding.mp3"):
-            pass
-        else:
-            os.chdir("C:/ServerFinder/")
-            down_sound()
+        os.makedirs(detect_user_data_dir, exist_ok=True)
+        user_data_dir = detect_user_data_dir
+        return user_data_dir
+    except OSError as e:
+        import tempfile
+        user_data_dir = tempfile.mkdtemp(prefix=f"{app_name.lower()}_")
+user_data_dir = setup_user()
+
+#Icon, Sounds & Misc
+def load_icon_sound_db():
+    global sound
+
+    user_icon_path = os.path.join(user_data_dir, logo)
+    user_default_sound_path = os.path.join(user_data_dir, default_sound)
+    user_db_path = os.path.join(user_data_dir, db)
+
+    try:
+        if not os.path.exists(user_icon_path):
+            original_cwd = os.getcwd()
+            os.chdir(user_data_dir)
+            down_icon(user_icon_path)
+            os.chdir(original_cwd)
+
+        if not os.path.exists(user_default_sound_path):
+            original_cwd = os.getcwd()
+            os.chdir(user_data_dir)
+            down_sound(user_default_sound_path)
+            os.chdir(original_cwd)
+
+        if not os.path.exists(user_db_path):
+            original_cwd = os.getcwd()
+            os.chdir(user_data_dir)
+            down_db(user_db_path)
+            os.chdir(original_cwd)
+
+        sound = user_default_sound_path
+
     except Exception as e:
+        output(f"Failed to load/download default icon/sound: {e}")
+        sound = None
         return "Failed to load logo"
-icon_and_sound()
+load_icon_sound_db()
 def load_sound():
     global sound
+    sound_cfg_file = os.path.join(user_data_dir, sound_cfg)
     try:
-        with open("C:/ServerFinder/sound_cfg.txt", "r") as f:
-            sound = f.read()
-            f.close()
+        with open(sound_cfg_file, "r") as f:
+            conf_sound = f.read().strip()
+            potential_user_sound_path = os.path.join(user_data_dir, conf_sound)
+            if os.path.exists(potential_user_sound_path):
+                sound = potential_user_sound_path
+            else:
+                sound = os.path.join(user_data_dir, default_sound)
     except Exception as e:
-        sound = "ding.mp3"
+        sound = os.path.join(user_data_dir, default_sound)
 load_sound()
 def play_sound(sound_effect):
     try:
-        sound = pg.mixer.Sound(sound_effect)
-        sound.play()
+        if sound_effect and os.path.exists(sound_effect):
+            playsound = pg.mixer.Sound(sound_effect)
+            playsound.play()
+        elif sound_effect:
+            print(f"Sound file not found: {sound_effect}")
     except Exception as e:
         print(f"Error playing sound {sound_effect}: {e}")
 def choose_sound():
     global sound
     sound_in = tk.CTkInputDialog(text="Input Name of Sound File:", title="Sound File",)
     extract = sound_in.get_input()
-    sound = extract.strip()
+    new_sound = extract.strip()
     if not sound:
         output("Sound file not entered.")
         return
-    try:
-        os.makedirs(path, exist_ok=True)
-        if os.path.exists(path):
-            output(f"Directory exists")
-            if os.path.exists(sound):
-                output(f"Found sound file: '{sound}'")
-                full_path = os.path.join(path, "sound_cfg.txt")
-                try:
-                    with open(full_path, "w") as f:
-                        f.write(sound)
-                except Exception as e:
-                    output(f"Failed to save sound to '{full_path}': {e}")
-            else:
-                output(f"Failed to find sound file: '{sound}'")
-
-    except Exception as e:
-        output(f"Failed to create directory '{path}'")
-        return
+    user_sound_path = os.path.join(user_data_dir, new_sound)
+    if os.path.exists(user_sound_path):
+        output(f"Found sound file: '{user_sound_path}'")
+        full_cfg_path = os.path.join(user_data_dir, sound_cfg)
+        try:
+            with open(full_cfg_path, "w") as f:
+                f.write(new_sound)
+            sound = user_sound_path
+            output(f"Saved sound configuration to: '{full_cfg_path}'")
+        except Exception as e:
+            output(f"Failed to save sound to '{full_cfg_path}': {e}")
+    else:
+        output(f"Failed to find sound file in: '{user_sound_path}'")
+        output(f"Place your sound file in: {user_data_dir}")
 def output(text):
     timestamp = time.strftime("%H:%M:%S")
     Out_textbox.configure(state="normal")
@@ -118,14 +172,8 @@ def save_cookie():
     if not cookie:
         output("Cookie not entered.")
         return
-    try:
-        os.makedirs(path, exist_ok=True)
-        output(f"Directory exists")
-    except Exception as e:
-        output(f"Failed to create directory '{path}'")
-        return
 
-    full_path = os.path.join(path, "cookie.txt")
+    full_path = os.path.join(user_data_dir, cookie_dir)
 
     try:
         with open(full_path, "w") as f:
@@ -136,12 +184,12 @@ def save_cookie():
 def load_cookie():
     output("Loading Cookie...")
     global cookie
+    cookie_file = os.path.join(user_data_dir, cookie_dir)
     try:
-        os.chdir("C:/ServerFinder/")
-        with open("cookie.txt", "r") as f:
-            cookie = f.read()
+        with open(cookie_file, "r") as f:
+            cookie = f.read().strip()
             f.close()
-        output(f"Loaded Cookie")
+        output("Loaded Cookie")
     except Exception as e:
         output(f"Failed to load cookie because of '{e}'")
 # Server Search
@@ -358,7 +406,8 @@ def go_to_next_page():
         display_current_page()
 
 def server_search_page(parent_frame):
-    global Out_textbox, PlaceID_textbox, content_frame
+    global Out_textbox, PlaceID_textbox, content_frame, country_filter
+    country_filter = []
     content_frame = tk.CTkFrame(parent_frame,corner_radius=0,fg_color="transparent")
     content_frame.grid(row=0, column=1, sticky="nsew")
     content_frame.grid_columnconfigure(0, weight=1)
@@ -554,7 +603,8 @@ class App(tk.CTk):
         self.grid_columnconfigure(0, weight=1)
         pg.mixer.init()
         pg.mixer.music.set_volume(0.5)
-        self.iconbitmap("C:/ServerFinder/logo.ico")
+        logo_path = os.path.join(user_data_dir, logo)
+        self.iconbitmap(logo_path)
 
         main_frame = tk.CTkFrame(self)
         main_frame.pack(padx=10, pady=10, fill="both", expand=True, anchor="w")
@@ -575,7 +625,7 @@ class App(tk.CTk):
         side_frame.grid_rowconfigure(6, weight=0)
         side_frame.grid_rowconfigure(7, weight=0)
 
-        side_logo = tk.CTkImage(dark_image=Image.open("C:/ServerFinder/logo.ico"),size=(30,30))
+        side_logo = tk.CTkImage(dark_image=Image.open(logo_path),size=(30,30))
         side_title =tk.CTkLabel(side_frame,text='RoSniffer',image=side_logo,compound="top",font=tk.CTkFont(family=custom_font,size=35,weight='bold'))
         side_title.grid(row=0,column=0,pady=(20,0),sticky="ew")
         side_description =  tk.CTkLabel(side_frame,text='A roblox server searcher',font=tk.CTkFont(family=custom_font,size=10))
