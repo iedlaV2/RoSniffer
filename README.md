@@ -24,7 +24,7 @@ Inspired by Oqarshi's Rolocate Script
 
 ## GUI 
 
-<img width="991" height="613" alt="image" src="https://github.com/user-attachments/assets/d166c60a-ba5f-4511-94dc-bea0f43c0acd" />
+<img width="991" height="625" alt="image" src="https://github.com/user-attachments/assets/928b36ed-4d08-4c00-8dcb-2b5b71259502" />
 
 
 <img width="996" height="625" alt="image" src="https://github.com/user-attachments/assets/540f118b-345c-46a8-b61e-0dfe5d4d92c5" />
