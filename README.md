@@ -18,16 +18,19 @@ Inspired by Oqarshi's Rolocate Script
 -Server sorting for HK, SG, GB, FR, DE, JP, IN, AU, KR, NL.\
 -Saves cookie between uses.
 ### Future
--Roblox game search to search for games with their name.\
+-Icons for games.\
 -MacOs Support\
 -Undecided.
 
 ## GUI 
 
-<img width="998" height="621" alt="image" src="https://github.com/user-attachments/assets/320401e3-a1fc-42e9-a232-277456b2f563" />
+<img width="991" height="613" alt="image" src="https://github.com/user-attachments/assets/d166c60a-ba5f-4511-94dc-bea0f43c0acd" />
 
 
-<img width="993" height="624" alt="image" src="https://github.com/user-attachments/assets/f5e2f763-2b00-438c-a7a8-7da324c9b8aa" />
+<img width="996" height="625" alt="image" src="https://github.com/user-attachments/assets/540f118b-345c-46a8-b61e-0dfe5d4d92c5" />
+
+
+<img width="993" height="619" alt="image" src="https://github.com/user-attachments/assets/58545804-c793-4714-81dc-372e52025596" />
 
 
 
