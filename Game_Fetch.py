@@ -11,9 +11,10 @@ def game_explore(reqfilter):
         response.raise_for_status()
         game_unparsed = response.json()
         games_lst = game_unparsed.get("games",[])
+        #print(games_lst)
     except requests.exceptions.RequestException as e:
         return(e)
-    print(games_lst)
+    #print(games_lst)
     if games_lst:
         for game in games_lst:
             game_name = game.get("name")
@@ -35,12 +36,18 @@ def roblox_search(search_content):
     search_unparsed = response.json()
     search_return = search_unparsed.get("searchResults",[])
     if search_return:
+        print(search_return)
         for ret in search_return:
             games = ret.get("contents",[])
             for game in games:
                 game_name = game.get("name")
                 game_PlaceID = game.get("rootPlaceId")
-                search_return_dict[game_name] = game_PlaceID
+                player_count = game.get("playerCount")
+                search_return_dict[game_name] = {
+                    'Player Count': player_count,
+                    'Game ID': game_PlaceID
+                }
+        print(search_return_dict)
         return search_return_dict
-#print(roblox_search(""))
+#print(roblox_search("cheese"))
 
