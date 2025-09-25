@@ -227,6 +227,7 @@ def switch_event(country):
     if off_substring in check_switch:
         country_filter.remove(country)
 
+
 #Discovery
 fetch_in_progress = False
 game_fetch = queue.Queue()

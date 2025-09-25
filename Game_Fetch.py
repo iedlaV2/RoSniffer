@@ -2,6 +2,7 @@ import requests
 import uuid
 
 
+
 def game_explore(reqfilter):
     games_dict = {}
     sessionID = str(uuid.uuid4())

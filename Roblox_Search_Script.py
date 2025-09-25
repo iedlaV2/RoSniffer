@@ -7,6 +7,7 @@ import geoip2.database
 import json
 import webbrowser
 
+
 boolmindmax = False
 mindmaxfetchlink = "https://drive.usercontent.google.com/download?id=1hyZmPjGCzDixKY6HYzFPhoxodl29Elkm&export=download&authuser=0"
 logofetch = "https://github.com/iedlaV2/Rosniffer-Downloads/releases/download/v0/logo.ico"
