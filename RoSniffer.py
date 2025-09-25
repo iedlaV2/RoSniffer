@@ -228,6 +228,7 @@ def switch_event(country):
         country_filter.remove(country)
 
 
+
 #Discovery
 fetch_in_progress = False
 game_fetch = queue.Queue()

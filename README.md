@@ -60,4 +60,3 @@ Open the extension and copy your .ROBLOSECURITY cookie, the cookie starts past t
 
 <img width="495" height="253" alt="image" src="https://github.com/user-attachments/assets/14fa17cc-cdaf-41ba-bb76-02be75fcfc11" />
 
-
