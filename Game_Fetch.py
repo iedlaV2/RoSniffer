@@ -19,7 +19,8 @@ def game_explore(reqfilter):
             game_name = game.get("name")
             games_dict[game_name] = {
                 'Player Count': game.get("playerCount"),
-                'Game ID': game.get("rootPlaceId")
+                'Game ID': game.get("rootPlaceId"),
+                'Universe ID': game.get("universeId")
             }
         return games_dict
     else:
@@ -44,9 +45,10 @@ def roblox_search(search_content):
                 player_count = game.get("playerCount")
                 search_return_dict[game_name] = {
                     'Player Count': player_count,
-                    'Game ID': game_PlaceID
+                    'Game ID': game_PlaceID,
+                    'Universe ID': game.get("universeId")
                 }
         print(search_return_dict)
         return search_return_dict
-#print(roblox_search("cheese"))
+#print(roblox_search("forsaken"))
 
