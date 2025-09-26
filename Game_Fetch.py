@@ -27,6 +27,7 @@ def game_explore(reqfilter):
         return("Games not found")
 #print(game_explore("top-playing-now"))
 
+
 def roblox_search(search_content):
     search_return_dict = {}
     sessionID = str(uuid.uuid4())

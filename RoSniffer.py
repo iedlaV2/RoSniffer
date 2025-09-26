@@ -162,6 +162,7 @@ def send_website(gameid):
     url = f"https://www.roblox.com/games/{gameid}"
     webbrowser.open(url)
 
+
 #icon fetch
 image_load_queue = queue.Queue()
 def get_game_icon_url(universe_id: int, size: str = "128x128", format: str = "Png") -> str or None:
