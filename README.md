@@ -15,11 +15,13 @@ Inspired by Oqarshi's Rolocate Script
 ## Features
 -Roblox server finding tool using the [**game ID**](#how-to-get-game-id).\
 -Roblox game browser with some filtering options.\
+-Roblox game searching.\
+-Roblox game icons\
 -Server sorting for HK, SG, GB, FR, DE, JP, IN, AU, KR, NL.\
 -Saves cookie between uses.
 ### Future
--Icons for games.\
 -MacOs Support\
+-Optimizations\
 -Undecided.
 
 ## GUI 
@@ -27,10 +29,11 @@ Inspired by Oqarshi's Rolocate Script
 <img width="991" height="625" alt="image" src="https://github.com/user-attachments/assets/928b36ed-4d08-4c00-8dcb-2b5b71259502" />
 
 
-<img width="996" height="625" alt="image" src="https://github.com/user-attachments/assets/540f118b-345c-46a8-b61e-0dfe5d4d92c5" />
+<img width="997" height="625" alt="image" src="https://github.com/user-attachments/assets/7c0620c2-a8bd-40af-9a50-a4eebf349241" />
 
 
-<img width="993" height="619" alt="image" src="https://github.com/user-attachments/assets/58545804-c793-4714-81dc-372e52025596" />
+<img width="999" height="623" alt="image" src="https://github.com/user-attachments/assets/c58ea72d-a557-44a0-a163-9aba4bfd2223" />
+
 
 
 
