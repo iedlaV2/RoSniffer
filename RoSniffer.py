@@ -144,9 +144,14 @@ def choose_sound():
         output(f"Place your sound file in: {user_data_dir}")
 def output(text):
     timestamp = time.strftime("%H:%M:%S")
-    Out_textbox.configure(state="normal")
-    Out_textbox.insert("end", f"{timestamp}: {text}\n")
-    Out_textbox.configure(state="disabled")
+    if Out_textbox and Out_textbox.winfo_exists():
+        Out_textbox.configure(state="normal")
+        Out_textbox.insert("end", f"{timestamp}: {text}\n")
+        Out_textbox.configure(state="disabled")
+        Out_textbox.see("end")
+    else:
+        print(f"[{timestamp} - GUI Output N/A]: {text}")
+
 def grids(frame):
     frame.grid_columnconfigure(0, weight=1)
     frame.grid_columnconfigure(1, weight=1)
@@ -913,8 +918,11 @@ def game_search_page(parent_frame):
     search_left_frame.grid_rowconfigure(0, weight=1)
     search_left_frame.grid_rowconfigure(1, weight=0)
 
-    search_out_frame = tk.CTkScrollableFrame(search_left_frame, width=400, height=350)
+    search_out_frame = tk.CTkScrollableFrame(search_left_frame, width=550, height=350)
     search_out_frame.grid(row=0, column=0, pady=0, padx=0, sticky="nsew")
+
+    tk.CTkLabel(search_out_frame,text="Enter a game name in the 'Search Query' box\nand click 'Fetch Games' to see results.",
+                font=tk.CTkFont(family=custom_font, size=14), wraplength=350, justify="center").pack(pady=50)
 
     pagination_frame = tk.CTkFrame(search_left_frame, fg_color="transparent")
     pagination_frame.grid(row=1, column=0, pady=(10, 0), sticky="ew")
@@ -943,10 +951,6 @@ def game_search_page(parent_frame):
     search_right_frame.grid_rowconfigure(0, weight=0)
     search_right_frame.grid_rowconfigure(1, weight=0)
     search_right_frame.grid_rowconfigure(2, weight=0)
-    search_right_frame.grid_rowconfigure(3, weight=0)
-    search_right_frame.grid_rowconfigure(4, weight=0)
-    search_right_frame.grid_rowconfigure(5, weight=0)
-    search_right_frame.grid_rowconfigure(6, weight=0)
     search_right_frame.grid_columnconfigure(0, weight=1)
 
     search_right_label = tk.CTkLabel(search_right_frame, text="Filters",
@@ -955,10 +959,10 @@ def game_search_page(parent_frame):
 
     filter_label_sort = tk.CTkLabel(search_right_frame, text="Search Query",
                                     font=tk.CTkFont(family=custom_font, size=15, weight='bold'))
-    filter_label_sort.grid(row=1, column=0, pady=10, padx=0, sticky="w")
+    filter_label_sort.grid(row=1, column=0, pady=10, padx=20, sticky="w")
 
     search_query_box = tk.CTkTextbox(search_right_frame)
-    search_query_box.grid(row=2, column=0, pady=10, sticky="n")
+    search_query_box.grid(row=2, column=0, pady=10, padx=20,sticky="n")
 
     sort_button = tk.CTkButton(search_right_frame, text="Fetch Games", compound="left", command=search_request,
                                anchor="center",
@@ -967,6 +971,7 @@ def game_search_page(parent_frame):
     sort_button.grid(row=3, column=0, pady=10, sticky="n", )
 
     return search_content_frame
+
 
 
 class App(tk.CTk):
@@ -987,7 +992,7 @@ class App(tk.CTk):
 
         main_frame = tk.CTkFrame(self)
         main_frame.pack(padx=10, pady=10, fill="both", expand=True, anchor="w")
-        main_frame.grid_columnconfigure(0, weight=1)
+        main_frame.grid_columnconfigure(0, weight=0)
         main_frame.grid_columnconfigure(1, weight=0)
         main_frame.grid_rowconfigure(0, weight=1)
 
@@ -1036,27 +1041,59 @@ class App(tk.CTk):
         credit_button.grid(row=8, column=0, padx=10, pady=(0, 5), sticky="ew")
 
 
-
 def show_server_search_page():
-    discover_content_frame.grid_forget()
-    search_content_frame.grid_forget()
-    server_search_page(main_frame)
+    global server_search_page_frame, discover_page_frame, game_search_frame
+
+    if discover_page_frame and discover_page_frame.winfo_exists():
+        discover_page_frame.destroy()
+        discover_page_frame = None
+    if game_search_frame and game_search_frame.winfo_exists():
+        game_search_frame.destroy()
+        game_search_frame = None
+
+    if not server_search_page_frame or not server_search_page_frame.winfo_exists():
+        server_search_page_frame = server_search_page(app_instance.main_content_area_frame)
+
+    server_search_page_frame.grid(row=0, column=0, sticky="nsew")
+
+
 def show_discover_page():
-    content_frame.grid_forget()
-    search_content_frame.grid_forget()
-    discover_page(main_frame)
+    global server_search_page_frame, discover_page_frame, game_search_frame
+
+    if server_search_page_frame and server_search_page_frame.winfo_exists():
+        server_search_page_frame.destroy()
+        server_search_page_frame = None
+    if game_search_frame and game_search_frame.winfo_exists():
+        game_search_frame.destroy()
+        game_search_frame = None
+
+    if not discover_page_frame or not discover_page_frame.winfo_exists():
+        discover_page_frame = discover_page(app_instance.main_content_area_frame)
+        discover_sort_selection()
+
+    discover_page_frame.grid(row=0, column=0, sticky="nsew")
+
+
 def show_game_search():
-    content_frame.grid_forget()
-    discover_content_frame.grid_forget()
-    game_search_page(main_frame)
+    global server_search_page_frame, discover_page_frame, game_search_frame
+
+    if server_search_page_frame and server_search_page_frame.winfo_exists():
+        server_search_page_frame.destroy()
+        server_search_page_frame = None
+    if discover_page_frame and discover_page_frame.winfo_exists():
+        discover_page_frame.destroy()
+        discover_page_frame = None
+
+
+    if not game_search_frame or not game_search_frame.winfo_exists():
+        game_search_frame = game_search_page(app_instance.main_content_area_frame)
+
+    game_search_frame.grid(row=0, column=0, sticky="nsew")
 
 if __name__ == '__main__':
     app_instance = App()
-    server_search_page_frame = server_search_page(app_instance.main_content_area_frame)
-    discover_page_frame = discover_page(app_instance.main_content_area_frame)
-    game_search_frame = game_search_page(app_instance.main_content_area_frame)
-
-    discover_page_frame.grid_forget()
-    game_search_frame.grid_forget()
-    server_search_page_frame.grid(row=0, column=0, sticky="nsew")
+    server_search_page_frame = None
+    discover_page_frame = None
+    game_search_frame = None
+    show_server_search_page()
     app_instance.mainloop()
