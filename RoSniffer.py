@@ -564,6 +564,7 @@ def display_current_page():
     update_navigation_buttons()
 
 
+
 def update_navigation_buttons():
     global cur_page_index, total_pages
     global discover_page_info_label, discover_prev_page_button, discover_next_page_button
