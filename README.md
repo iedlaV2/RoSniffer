@@ -4,9 +4,12 @@ Application to find roblox servers in most regions.
 (Not every country has Roblox servers.)
 
 Uses Geolite Database for IP identification.\
-Files & Cookie stored in Windows --> C:\RoSniffer , Mac --> ~/Documents/RoSniffer\
 Inspired by Oqarshi's Rolocate Script
 
+
+Files & Cookie stored in:\
+Windows --> C:\RoSniffer\
+Mac --> ~/Documents/RoSniffer\
 
 > [!NOTE]
 > To open you can just download from the releases.\
