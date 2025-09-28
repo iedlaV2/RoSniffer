@@ -4,25 +4,32 @@ Application to find roblox servers in most regions.
 (Not every country has Roblox servers.)
 
 Uses Geolite Database for IP identification.\
-Files & Cookie stored in C:\RoSniffer\
+Files & Cookie stored in Windows --> C:\RoSniffer , Mac --> ~/Documents/RoSniffer\
 Inspired by Oqarshi's Rolocate Script
 
+
 > [!NOTE]
-> The application does not automatically fetch your roblox cookie. You will have to do it manually.\
-> You can use any accounts roblox cookie for this. So if you dont trust this program you can use an alts cookie\
-> [**How to extract your cookie**](#how-to-get-roblox-cookie)
+> To open you can just download from the releases.\
+> Right click open on Mac to get around Apple security, I'm to poor to get a dev license so I can't sign it.\
+
 
 ## Features
--Roblox server finding tool using the [**game ID**](#how-to-get-game-id).\
--Roblox game browser with some filtering options.\
--Roblox game searching.\
--Roblox game icons\
--Server sorting for HK, SG, GB, FR, DE, JP, IN, AU, KR, NL.\
--Saves cookie between uses.
+  -Roblox server finding tool using the [**game ID**](#how-to-get-game-id).\
+  -Roblox game browser with some filtering options.\
+  -Roblox game searching.\
+  -Roblox game icons\
+  -Server sorting for HK, SG, GB, FR, DE, JP, IN, AU, KR, NL.\
+  -Saves cookie between uses.
+  
+  > [!NOTE]
+  > The application does not automatically fetch your roblox cookie. You will have to do it manually.\
+  > You can use any accounts roblox cookie for this. So if you dont trust this program you can use an alts cookie\
+  > [**How to extract your cookie**](#how-to-get-roblox-cookie)
+
+
 ### Future
--MacOs Support\
--Optimizations\
--Undecided.
+  -Optimizations\
+  -Undecided.
 
 ## GUI 
 
