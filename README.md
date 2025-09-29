@@ -65,7 +65,7 @@ Get a cookie editor or viewer I use [cookie-editor](https://chromewebstore.googl
 
 Then go to roblox.com.
 
-Log into the account or an alt account.
+Log into your account or an alt account.
 
 Open the extension and copy your .ROBLOSECURITY cookie, the cookie starts past the warning so right after "items.|_".
 
