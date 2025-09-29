@@ -13,7 +13,7 @@ Mac --> ~/Documents/RoSniffer\
 
 > [!NOTE]
 > To open you can just download from the releases.\
-> Right click open on Mac to get around Apple security, I'm to poor to get a dev license so I can't sign it.\
+> Right click open on Mac to get around Apple security, I'm to poor to get a dev license so I can't sign it.
 
 
 ## Features
