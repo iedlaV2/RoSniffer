@@ -9,7 +9,7 @@ Inspired by Oqarshi's Rolocate Script
 
 Files & Cookie stored in:\
 Windows --> C:\RoSniffer\
-Mac --> ~/Documents/RoSniffer\
+Mac --> ~/Documents/RoSniffer
 
 > [!NOTE]
 > To open you can just download from the releases.\
