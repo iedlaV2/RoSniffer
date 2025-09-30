@@ -11,9 +11,9 @@ Files & Cookie stored in:\
 Windows --> C:\RoSniffer\
 Mac --> ~/Documents/RoSniffer
 
-> [!NOTE]
+> [!IMPORTANT]
 > To open you can just download from the releases.\
-> Right click open on Mac to get around Apple security, I'm to poor to get a dev license so I can't sign it.
+> [How to open](https://support.apple.com/guide/mac-help/open-a-mac-app-from-an-unknown-developer-mh40616/mac)
 
 
 ## Features
@@ -31,8 +31,8 @@ Mac --> ~/Documents/RoSniffer
 
 
 ### Future
-  -Optimizations\
-  -Undecided.
+  -More search ability\
+  -Optimizations
 
 ## GUI 
 
