@@ -21,6 +21,7 @@ all_fetched_games = {}
 cur_page_index = 0
 items_per_page = 10
 total_pages = 0
+max_logs = 100
 
 logo = "logo.ico"
 default_sound = "ding.mp3"
@@ -70,8 +71,8 @@ def setup_user(app_name="RoSniffer"):
         user_data_dir = tempfile.mkdtemp(prefix=f"{app_name.lower()}_")
 user_data_dir = setup_user()
 
-def load_icon_sound_db():
-    global sound,user_db_path
+def load_icon_sound_db(user_data_dir):
+    global sound, user_db_path
 
     user_icon_path = os.path.join(user_data_dir, logo)
     user_default_sound_path = os.path.join(user_data_dir, default_sound)
@@ -102,8 +103,8 @@ def load_icon_sound_db():
         output(f"Failed to load/download default icon/sound: {e}")
         sound = None
         return "Failed to load logo"
-load_icon_sound_db()
-def load_sound():
+load_icon_sound_db(user_data_dir)
+def load_sound(user_data_dir):
     global sound
     sound_cfg_file = os.path.join(user_data_dir, sound_cfg)
     try:
@@ -116,7 +117,7 @@ def load_sound():
                 sound = os.path.join(user_data_dir, default_sound)
     except Exception as e:
         sound = os.path.join(user_data_dir, default_sound)
-load_sound()
+load_sound(user_data_dir)
 def play_sound(sound_effect):
     try:
         if sound_effect and os.path.exists(sound_effect):
@@ -153,6 +154,9 @@ def output(text):
     if Out_textbox and Out_textbox.winfo_exists():
         Out_textbox.configure(state="normal")
         Out_textbox.insert("end", f"{timestamp}: {text}\n")
+        num_lines = int(Out_textbox.index('end-1c').split('.')[0])
+        if num_lines > max_logs:
+            Out_textbox.delete("1.0", f"{num_lines - max_logs + 1}.0")
         Out_textbox.configure(state="disabled")
         Out_textbox.see("end")
     else:
@@ -319,19 +323,17 @@ def load_cookie():
         output("Loaded Cookie")
     except Exception as e:
         output(f"Failed to load cookie because of '{e}'")
-def run_search_script():
+def run_search_script(PlaceID):
     try:
         output(main(cookie, PlaceID,country_filter,user_db_path))
         play_sound(sound)
     except Exception as e:
         output(f"Failed to run search script because of {e}")
-def start_search_thread():
-    search_thread = threading.Thread(target=run_search_script)
+def start_search_thread(PlaceID):
+    search_thread = threading.Thread(target=run_search_script,args=(PlaceID,))
     search_thread.daemon = True
     search_thread.start()
 def Gui_main():
-    global running
-    global PlaceID
     extract = PlaceID_textbox.get("0.0", "end")
     PlaceID = extract.strip()
     if not cookie or not PlaceID:
@@ -339,7 +341,7 @@ def Gui_main():
         return
     try:
         output(f"Searching for game Servers in {country_filter}")
-        start_search_thread()
+        start_search_thread(PlaceID)
     except Exception as e:
         print(e)
 def switch_event(country):
@@ -802,6 +804,8 @@ def server_search_page(parent_frame):
     country_switch_vars["AU"] = tk.StringVar(value="au off")
     country_switch_vars["KR"] = tk.StringVar(value="kr off")
     country_switch_vars["NL"] = tk.StringVar(value="nl off")
+    country_switch_vars["US"] = tk.StringVar(value="us off")
+    country_switch_vars["PL"] = tk.StringVar(value="pl off")
 
     hk_switch = tk.CTkSwitch(Server_frame, text="Hong Kong", command=lambda: switch_event("HK"),
                              variable=country_switch_vars["HK"], onvalue="hk on", offvalue="hk off",font=tk.CTkFont(family=custom_font),
@@ -810,19 +814,23 @@ def server_search_page(parent_frame):
     sg_switch = tk.CTkSwitch(Server_frame, text="Singapore", command=lambda: switch_event("SG"),
                              variable=country_switch_vars["SG"], onvalue="sg on", offvalue="sg off",font=tk.CTkFont(family=custom_font),
                              fg_color='grey',progress_color='royal blue')
-    sg_switch.grid(row=1 + 1, column=0, padx=20, pady=(10, 5), sticky="ew")
+    sg_switch.grid(row=2, column=0, padx=20, pady=(10, 5), sticky="ew")
     gb_switch = tk.CTkSwitch(Server_frame, text="United Kingdom", command=lambda: switch_event("GB"),
                              variable=country_switch_vars["GB"], onvalue="gb on", offvalue="gb off",font=tk.CTkFont(family=custom_font),
                              fg_color='grey',progress_color='royal blue')
-    gb_switch.grid(row=1 + 2, column=0, padx=20, pady=(10, 5), sticky="ew")
+    gb_switch.grid(row=3, column=0, padx=20, pady=(10, 5), sticky="ew")
     fr_switch = tk.CTkSwitch(Server_frame, text="France", command=lambda: switch_event("FR"),
                              variable=country_switch_vars["FR"], onvalue="fr on", offvalue="fr off",font=tk.CTkFont(family=custom_font),
                              fg_color='grey',progress_color='royal blue')
-    fr_switch.grid(row=1 + 3, column=0, padx=20, pady=(10, 5), sticky="ew")
+    fr_switch.grid(row=4, column=0, padx=20, pady=(10, 5), sticky="ew")
     de_switch = tk.CTkSwitch(Server_frame, text="Germany", command=lambda: switch_event("DE"),
                              variable=country_switch_vars["DE"], onvalue="de on", offvalue="de off",font=tk.CTkFont(family=custom_font),
                              fg_color='grey',progress_color='royal blue')
-    de_switch.grid(row=1 + 4, column=0, padx=20, pady=(10, 5), sticky="ew")
+    de_switch.grid(row=5, column=0, padx=20, pady=(10, 5), sticky="ew")
+    pl_switch = tk.CTkSwitch(Server_frame, text="Poland", command=lambda: switch_event("PL"),
+                             variable=country_switch_vars["PL"], onvalue="pl on", offvalue="pl off",font=tk.CTkFont(family=custom_font),
+                             fg_color='grey',progress_color='royal blue')
+    pl_switch.grid(row=6, column=0, padx=20, pady=(10, 5), sticky="ew")
     jp_switch = tk.CTkSwitch(Server_frame, text="Japan", command=lambda: switch_event("JP"),
                              variable=country_switch_vars["JP"], onvalue="jp on", offvalue="jp off",font=tk.CTkFont(family=custom_font),
                              fg_color='grey',progress_color='royal blue')
@@ -843,8 +851,13 @@ def server_search_page(parent_frame):
                              variable=country_switch_vars["NL"], onvalue="nl on", offvalue="nl off",font=tk.CTkFont(family=custom_font),
                              fg_color='grey',progress_color='royal blue')
     nl_switch.grid(row=5, column=1, padx=20, pady=(10, 5), sticky="ew")
+    us_switch = tk.CTkSwitch(Server_frame, text="USA", command=lambda: switch_event("US"),
+                             variable=country_switch_vars["US"], onvalue="us on", offvalue="us off",font=tk.CTkFont(family=custom_font),
+                             fg_color='grey',progress_color='royal blue')
+    us_switch.grid(row=6, column=1, padx=20, pady=(10, 5), sticky="ew")
     output("Innitializing...")
     return content_frame
+
 def discover_page(parent_frame):
     global discover_content_frame, out_frame, discover_page_info_label, discover_prev_page_button, discover_next_page_button
     discover_content_frame = tk.CTkFrame(parent_frame, corner_radius=0,fg_color="transparent")

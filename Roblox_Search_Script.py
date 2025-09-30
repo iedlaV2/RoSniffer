@@ -15,12 +15,8 @@ logofetch = "https://github.com/iedlaV2/Rosniffer-Downloads/releases/download/v0
 soundfetch = "https://github.com/iedlaV2/Rosniffer-Downloads/releases/download/v0/ding.mp3"
 
 
-global_mindmax_db_path = None
-
-
-
 def down_db(mindmax_target_full_path):
-    global global_mindmax_db_path, boolmindmax
+    global boolmindmax
     global_mindmax_db_path = mindmax_target_full_path
     try:
         print(f"  Attempting to download GeoLite2 DB to: {global_mindmax_db_path}")
@@ -40,7 +36,7 @@ def down_db(mindmax_target_full_path):
         return False
 
 def mindmax_setup(db_path_for_setup):
-    global boolmindmax, global_mindmax_db_path
+    global boolmindmax
     global_mindmax_db_path = db_path_for_setup
     if not boolmindmax:
         try:
@@ -97,7 +93,6 @@ def down_icon(target_full_path):
         print(f"  An unexpected error occurred during logo download: {e}")
         return f"An unexpected error occurred during logo download: {e}"
 
-
 def down_sound(target_full_path):
     try:
         print(f"  Attempting to download sound to: {target_full_path}")
@@ -114,7 +109,6 @@ def down_sound(target_full_path):
     except Exception as e:
         print(f"  An unexpected error occurred during sound download: {e}")
         return f"An unexpected error occurred during sound download: {e}"
-
 
 def fetch_serverid(place_id: int) -> list[str]:
     fetchurl = f"https://games.roblox.com/v1/games/{place_id}/servers/public"
