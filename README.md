@@ -4,25 +4,35 @@ Application to find roblox servers in most regions.
 (Not every country has Roblox servers.)
 
 Uses Geolite Database for IP identification.\
-Files & Cookie stored in C:\RoSniffer\
 Inspired by Oqarshi's Rolocate Script
 
-> [!NOTE]
-> The application does not automatically fetch your roblox cookie. You will have to do it manually.\
-> You can use any accounts roblox cookie for this. So if you dont trust this program you can use an alts cookie\
-> [**How to extract your cookie**](#how-to-get-roblox-cookie)
+
+Files & Cookie stored in:\
+Windows --> C:\RoSniffer\
+Mac --> ~/Documents/RoSniffer
+
+> [!IMPORTANT]
+> To open you can just download from the releases.\
+> [How to open](https://support.apple.com/guide/mac-help/open-a-mac-app-from-an-unknown-developer-mh40616/mac)
+
 
 ## Features
--Roblox server finding tool using the [**game ID**](#how-to-get-game-id).\
--Roblox game browser with some filtering options.\
--Roblox game searching.\
--Roblox game icons\
--Server sorting for HK, SG, GB, FR, DE, JP, IN, AU, KR, NL.\
--Saves cookie between uses.
+  -Roblox server finding tool using the [**game ID**](#how-to-get-game-id).\
+  -Roblox game browser with some filtering options.\
+  -Roblox game searching.\
+  -Roblox game icons\
+  -Server sorting for HK, SG, GB, FR, DE, JP, IN, AU, KR, NL.\
+  -Saves cookie between uses.
+  
+  > [!NOTE]
+  > The application does not automatically fetch your roblox cookie. You will have to do it manually.\
+  > You can use any accounts roblox cookie for this. So if you dont trust this program you can use an alts cookie\
+  > [**How to extract your cookie**](#how-to-get-roblox-cookie)
+
+
 ### Future
--MacOs Support\
--Optimizations\
--Undecided.
+  -More search ability\
+  -Optimizations
 
 ## GUI 
 
@@ -55,7 +65,7 @@ Get a cookie editor or viewer I use [cookie-editor](https://chromewebstore.googl
 
 Then go to roblox.com.
 
-Log into the account or an alt account.
+Log into your account or an alt account.
 
 Open the extension and copy your .ROBLOSECURITY cookie, the cookie starts past the warning so right after "items.|_".
 
