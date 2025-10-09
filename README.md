@@ -12,6 +12,7 @@ Windows --> C:\RoSniffer\
 Mac --> ~/Documents/RoSniffer
 
 > [!IMPORTANT]
+> For Mac\
 > To open you can just download from the releases.\
 > [How to open](https://support.apple.com/guide/mac-help/open-a-mac-app-from-an-unknown-developer-mh40616/mac)
 
